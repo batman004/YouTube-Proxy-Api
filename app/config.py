@@ -19,7 +19,11 @@ class DatabaseSettings(BaseSettings):
     DB_NAME: str = config["DB_NAME"]
 
 
-class Settings(CommonSettings, ServerSettings, DatabaseSettings):
+class YouTubeApiSettings(BaseSettings):
+    YOUTUBE_API_TOKEN = config["API_KEY"]
+
+
+class Settings(CommonSettings, ServerSettings, DatabaseSettings, YouTubeApiSettings):
     pass
 
 

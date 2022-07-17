@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.videos.routers import router as videos_router
+from app.videos.endpoints.routers import router as videos_router
 
 # importing server settings
-from config import settings
+from app.config import settings
 
 app = FastAPI()
 
