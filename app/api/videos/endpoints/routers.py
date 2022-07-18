@@ -9,10 +9,10 @@ router = APIRouter()
 
 
 @router.post("/", response_description="Add videos")
-async def add_videos(keyword: str, iterations: int):
+async def add_videos(keyword: str, iterations: int, request: Request):
     # adding data to db
     try:
-        response = await YoutubeDataHelper().insert_in_db(keyword, iterations)
+        response = await YoutubeDataHelper(request).insert_in_db(keyword, iterations)
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Exception : {e}")
@@ -21,13 +21,11 @@ async def add_videos(keyword: str, iterations: int):
 # get videos from db ordered by time of upload
 @router.get("/", response_description="List all videos", response_model=Page[VideoData])
 async def list_all_videos(request: Request):
-    videos = []
-    for doc in await request.app.mongodb["videos"].find().to_list(length=50):
-        videos.append(doc)
-
-    # sorting list in descending order
-    videos = videos[::-1]
-    return paginate(videos)
+    try:
+        videos = await YoutubeDataHelper(request).get_all_video_data()
+        return paginate(videos)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Exception : {e}")
 
 
 # search videos from db based on title

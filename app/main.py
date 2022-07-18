@@ -2,10 +2,10 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.videos.endpoints.routers import router as videos_router
+from api.videos.endpoints.routers import router as videos_router
 
 # importing server settings
-from app.config import settings
+from api.config import settings
 
 app = FastAPI()
 

@@ -7,8 +7,12 @@ from ..utils.latest_video_data import get_latest_date
 
 
 class YoutubeDataHelper:
-    def __init__(self) -> None:
+    def __init__(self, request: None) -> None:
         self.YOUTUBE_API_AUTH = settings.YOUTUBE_API_TOKEN
+        self.collection_name_async = request.app.mongodb["videos"]
+        self.collection_name = None
+
+    def pymongo_db_init(self):
         mongodb_uri = settings.DB_URL
         client = MongoClient(mongodb_uri, int(settings.PORT))
         db = client[settings.DB_NAME]
@@ -21,6 +25,7 @@ class YoutubeDataHelper:
         return False
 
     def get_current_time(self):
+        self.pymongo_db_init()
         if self.is_db_empty():
             # getting current time in rtc 3339 format
             now_utc = datetime.datetime.now()
@@ -51,6 +56,15 @@ class YoutubeDataHelper:
 
         return items
 
+    async def get_all_video_data(self):
+        videos = []
+        for doc in await self.collection_name_async.find().to_list(length=50):
+            videos.append(doc)
+
+        # sorting list in descending order
+        videos = videos[::-1]
+        return videos
+
     # async function to insert records queried from Youtube API into DB
     async def insert_in_db(self, keyword, iterations):
         cnt = 0
@@ -67,12 +81,14 @@ class YoutubeDataHelper:
                     video["_id"] = VId
 
                     # adding new video to db if it does not already exist
-                    if (self.collection_name.find_one({"_id": VId})) is not None:
+                    if (
+                        await self.collection_name_async.find_one({"_id": VId})
+                    ) is not None:
                         response[video["title"]] = "already in DB"
                         print("Video already in DB !")
 
                     else:
-                        new_video = self.collection_name.insert_one(video)
+                        new_video = await self.collection_name_async.insert_one(video)
                         print(f"video titled :{video['title']} added")
                         response[video["title"]] = "added"
 
