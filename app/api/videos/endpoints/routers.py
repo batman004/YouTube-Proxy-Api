@@ -31,13 +31,27 @@ async def list_all_videos(request: Request):
 # search videos from db based on title
 @router.get(
     "/search/{title}",
-    response_description="List all videos based on search",
+    response_description="List all videos based on title search",
     response_model=Page[VideoData],
 )
-async def search(title: str, request: Request):
+async def search_title(title: str, request: Request):
     data_search_handler = DataSearchHandler(request)
     try:
-        search_results = data_search_handler.fuzzy_matching(title)
+        search_results = data_search_handler.fuzzy_matching(title, "title")
+        return paginate(search_results)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Exception : {e}")
+
+
+@router.get(
+    "/search/{description}",
+    response_description="List all videos based on description search",
+    response_model=Page[VideoData],
+)
+async def search_description(description: str, request: Request):
+    data_search_handler = DataSearchHandler(request)
+    try:
+        search_results = data_search_handler.fuzzy_matching(description, "description")
         return paginate(search_results)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Exception : {e}")

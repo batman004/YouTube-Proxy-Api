@@ -10,14 +10,14 @@ class DataSearchHandler:
         self.collection_name = db.videos
         self.collection_name_async = request.app.mongodb["videos"]
 
-    def fuzzy_matching(self, search_query):
+    def fuzzy_matching(self, search_query, field):
 
         # define pipeline
         pipeline = [
             {
                 "$search": {
                     "index": "title_search",
-                    "autocomplete": {"query": search_query, "path": "title"},
+                    "autocomplete": {"query": search_query, "path": field},
                 }
             },
             {"$limit": 20},
