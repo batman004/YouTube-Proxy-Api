@@ -2,8 +2,8 @@ from googleapiclient.discovery import build
 import asyncio
 import datetime
 from pymongo import MongoClient
-from ...config import settings
-from ..utils.latest_video_data import get_latest_date
+from api.config import settings
+from api.videos.utils.latest_video_data import get_latest_date
 
 
 class YoutubeDataHelper:
