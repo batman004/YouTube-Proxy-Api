@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi_pagination import add_pagination
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.videos.endpoints.routers import router as videos_router
 
@@ -19,7 +20,7 @@ def read_root():
 async def startup_db_client():
     app.mongodb_client = AsyncIOMotorClient(settings.DB_URL)
     app.mongodb = app.mongodb_client[settings.DB_NAME]
-
+    add_pagination(app)
     # triggering function on startup to add entries to DB
     # await insert_in_db()
 
