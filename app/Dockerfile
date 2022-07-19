@@ -1,13 +1,13 @@
 FROM python:3.8.9
 
-WORKDIR /codebase
+WORKDIR /code
 
-COPY ./requirements.txt /codebase/requirements.txt
+COPY ./requirements.txt /code/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /codebase/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY . /codebase
+COPY . /code
 
-ENV PYTHONPATH="$PATH:/codebase"
+ENV PYTHONPATH="$PATH:/code"
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
