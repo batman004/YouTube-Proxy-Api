@@ -4,6 +4,38 @@
  - Python(FastAPI)
  - MongoDB cloud Atlas
 
+### Directory Structure
+```
+.
+├── LICENSE
+├── README.md
+├── app
+│   ├── Dockerfile
+│   ├── __init__.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   └── videos
+│   │       ├── __init__.py
+│   │       ├── auth
+│   │       │   ├── __init__.py
+│   │       │   └── auth_helper.py
+│   │       ├── endpoints
+│   │       │   ├── __init__.py
+│   │       │   ├── models.py
+│   │       │   └── routers.py
+│   │       ├── handlers
+│   │       │   ├── __init__.py
+│   │       │   ├── data_search_handler.py
+│   │       │   └── youtube_data_helper.py
+│   │       └── utils
+│   │           └── latest_video_data.py
+│   ├── main.py
+│   └── requirements.txt
+├── fampay.postman_collection.json
+└── run.sh
+
+```
 ### Database Schema
 
 #### video
@@ -17,9 +49,9 @@
     channelTitle: str
     liveBroadcastContent: str
     publishTime: str
-    
+
     "example":{
-    
+
           "_id": "wqjq2m1EQy8",
           "publishedAt": "2022-07-17T04:39:58Z",
           "channelId": "UCyrHueZqBqzCPizy4qYIV5A",
@@ -45,7 +77,7 @@
           "channelTitle": "Skill District",
           "liveBroadcastContent": "none",
           "publishTime": "2022-07-17T04:39:58Z"
-      }   
+      }
 ```
 ### API Routes
 
@@ -57,7 +89,7 @@ Routes | HTTP | Description
 **/video/** | `GET` | Get all videos
 **/video/search/{title}** | `GET` | Get video data based on title
 **/video/search/{description}** | `GET` | Get video data based on description
-**/video/** | `POST` | add videos to DB 
+**/video/** | `POST` | add videos to DB
 
 ### Steps to run
 
@@ -72,9 +104,9 @@ add a `.env` file inside `./app` (refer .env.example)
 #fill in credentials :
     DB_URL=
     DB_NAME=
-    PORT= 
+    PORT=
     API_KEY=
-```    
+```
 
 setting up a databse
 
@@ -88,7 +120,7 @@ setting up a databse
 
 run the `run.sh` script to Dockerize the project and run it
 ```
-sh run.sh 
+sh run.sh
 ```
 
 The server will start running at `port:80`
