@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "ba6a8a60-dc1b-47c3-a8e6-e1a7d9331f8f",
+		"name": "fampay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16798044"
+	},
+	"item": [
+		{
+			"name": "get api key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set(\"api_key\", res.key);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api-key",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api-key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all videos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{api_key}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/video?page=1&size=3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"video"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search by video title",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{api_key}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/video/search/{{description}}/?page=1&size=10",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"video",
+						"search",
+						"{{description}}",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add videos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{api_key}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/video?keyword={{title}}&iterations=2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"video"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "{{title}}"
+						},
+						{
+							"key": "iterations",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
