@@ -1,3 +1,4 @@
+from fastapi import APIRouter
 from pydantic import BaseSettings
 from dotenv import dotenv_values
 
@@ -19,11 +20,19 @@ class DatabaseSettings(BaseSettings):
     DB_NAME: str = config["DB_NAME"]
 
 
+class ApiKeySettings(BaseSettings):
+    ACTIVE: str = "ACTIVE"
+    INACTIVE: str = "INACTIVE"
+    THRESHOLD: int = 5
+
+
 class YouTubeApiSettings(BaseSettings):
     YOUTUBE_API_TOKEN = config["API_KEY"]
 
 
-class Settings(CommonSettings, ServerSettings, DatabaseSettings, YouTubeApiSettings):
+class Settings(
+    CommonSettings, ServerSettings, DatabaseSettings, YouTubeApiSettings, ApiKeySettings
+):
     pass
 
 

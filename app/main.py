@@ -1,11 +1,10 @@
 import uvicorn
 import uuid
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends
 from fastapi_pagination import add_pagination
-from fastapi.security import OAuth2PasswordBearer
 from motor.motor_asyncio import AsyncIOMotorClient
 from api.videos.endpoints.routers import router as videos_router
-from api.videos.auth.auth_helper import api_keys, invoke_api, ACTIVE
+from api.videos.auth.auth_helper import invoke_api, api_keys
 
 # importing server settings
 from api.config import settings
@@ -22,7 +21,7 @@ def read_root():
 def get_new_key():
     key = uuid.uuid4().hex
 
-    api_keys[key] = {"status": ACTIVE, "invoke_count": 0}
+    api_keys[key] = {"status": settings.ACTIVE, "invoke_count": 0}
 
     return {"key": key}
 
@@ -33,8 +32,6 @@ async def startup_db_client():
     app.mongodb_client = AsyncIOMotorClient(settings.DB_URL)
     app.mongodb = app.mongodb_client[settings.DB_NAME]
     add_pagination(app)
-    # triggering function on startup to add entries to DB
-    # await insert_in_db()
 
 
 @app.on_event("shutdown")
