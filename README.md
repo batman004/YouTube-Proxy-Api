@@ -166,5 +166,5 @@ curl --location --request GET 'localhost:80/video/search/football and messi/?pag
 
 - [x] Add data to DB in async manner after recieving interval and keyword from user
 - [x] API Key support to authenticate user and limit calls 🔐
-- [x] View all entires with pagination settings available 🗒️
+- [x] View all entries with pagination settings available 🗒️
 - [x] Fuzzy search based on title and description of video ✍️
