@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from ...config import settings
+from api.config import settings
 
 
 class DataSearchHandler:

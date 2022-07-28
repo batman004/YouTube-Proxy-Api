@@ -1,12 +1,13 @@
 from googleapiclient.discovery import build
 import asyncio
-import datetime
 from pymongo import MongoClient
 from api.config import settings
-from api.videos.utils.latest_video_data import get_latest_date
+from api.videos.utils.latest_video_data import get_latest_date, get_rtc_3339
 
 
 class YoutubeDataHelper:
+    DEFAULT_CURSOR_LENGTH = 50
+
     def __init__(self, request: None) -> None:
         self.YOUTUBE_API_AUTH = settings.YOUTUBE_API_TOKEN
         self.collection_name_async = request.app.mongodb["videos"]
@@ -20,21 +21,17 @@ class YoutubeDataHelper:
 
     def is_db_empty(self):
         query = self.collection_name.find()
-        if not query:
-            return True
-        return False
+        return not query
 
     def get_current_time(self):
         self.pymongo_db_init()
+
         if self.is_db_empty():
-            # getting current time in rtc 3339 format
-            now_utc = datetime.datetime.now()
-            now_rtc = now_utc.isoformat("T") + "Z"
-            return now_rtc
+            return get_rtc_3339()
+
         # check date for latest video added in db
-        else:
-            latest_date = get_latest_date(self.collection_name)
-            return latest_date
+        latest_date = get_latest_date(self.collection_name)
+        return latest_date
 
     def get_video_data(self, keyword):
         # initialising google api client object
@@ -58,12 +55,13 @@ class YoutubeDataHelper:
 
     async def get_all_video_data(self):
         videos = []
-        for doc in await self.collection_name_async.find().to_list(length=50):
+        for doc in await self.collection_name_async.find().to_list(
+            length=YoutubeDataHelper.DEFAULT_CURSOR_LENGTH
+        ):
             videos.append(doc)
 
-        # sorting list in descending order
-        videos = videos[::-1]
-        return videos
+        # returning list in reverse order
+        return videos[::-1]
 
     # async function to insert records queried from Youtube API into DB
     async def insert_in_db(self, keyword, iterations):
