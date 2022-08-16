@@ -126,6 +126,8 @@ The server will start running at `port:80`
 
 Sample payloads
 
+> :warning: **Current limit is set to 5 requests/api-key**
+
 1. Getting the API-KEY
 
 ```
