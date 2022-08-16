@@ -23,7 +23,7 @@ class DatabaseSettings(BaseSettings):
 class ApiKeySettings(BaseSettings):
     ACTIVE: str = "ACTIVE"
     INACTIVE: str = "INACTIVE"
-    THRESHOLD: int = 2
+    THRESHOLD: int = 5
 
 
 class YouTubeApiSettings(BaseSettings):
