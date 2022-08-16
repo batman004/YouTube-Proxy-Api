@@ -1,5 +1,3 @@
-# FamPay-Backend-Task
-
 ### Tech Stack
  - Python(FastAPI)
  - MongoDB cloud Atlas
