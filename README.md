@@ -93,8 +93,8 @@ Routes | HTTP | Description
 
 Open terminal and run the following commands
 ```
-git clone https://github.com/batman004/fampay-assessment.git
-cd fampay-assessment
+git clone https://github.com/batman004/YouTube-Proxy-Api
+cd YouTube-Proxy-Api
 ```
 
 add a `.env` file inside `./app` (refer .env.example)
