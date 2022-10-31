@@ -30,7 +30,6 @@
 │   │           └── latest_video_data.py
 │   ├── main.py
 │   └── requirements.txt
-├── fampay.postman_collection.json
 └── run.sh
 
 ```
